@@ -32,7 +32,7 @@ public class SerialReader810W extends Thread implements SerialPortEventListener 
 
 
 		if ( buff.size() > 0 && age > 250 ) {
-			System.err.println("# WorldDataSerialReader clearing buffer (length=" + buff.size() + " age=" + age + ")");
+			System.err.println("# SerialReader810W clearing buffer (length=" + buff.size() + " age=" + age + ")");
 			buff.clear();
 		}
 		lastCharacter=now;
@@ -45,14 +45,9 @@ public class SerialReader810W extends Thread implements SerialPortEventListener 
 		if ( buff.size() <= 10 ) {
 			return;
 		}
+		
 
-
-		/* check calculated packet CRC against last two characters */
-		int lCRC = 0x1234; // CRC.crc_chk(buff, 1, buff.size()-3);
-		int rCRC = (buff.elementAt(buff.size()-2)<<8) + (buff.elementAt(buff.size()-1));
-		//	System.err.println("# lCRC=" + lCRC + " rCRC=" + rCRC);
-
-		if ( lCRC == rCRC ) {
+		if ( 26 == buff.size() ) {
 		//	System.out.println("# CRC matches ... have valid packet");
 			
 			int b[]=new int[buff.size()];

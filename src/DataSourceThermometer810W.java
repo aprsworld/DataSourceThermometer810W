@@ -59,7 +59,14 @@ public class DataSourceThermometer810W implements Listener810W {
 	}
 
 	public void run(String[] args) throws IOException {
-		SerialReader810W ser810W = new SerialReader810W("COM26", 57600, SerialPort.PARITY_EVEN);
+		String serialPortName="/dev/ttyUSB0";
+	
+		if ( args.length >= 1 ) {
+			serialPortName=args[0];
+		}
+		
+		System.err.println("# connecting to serial port " + serialPortName);
+		SerialReader810W ser810W = new SerialReader810W(serialPortName, 57600, SerialPort.PARITY_EVEN);
 
 		ser810W.addPacketListener(this);
 
